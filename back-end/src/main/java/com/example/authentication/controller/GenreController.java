@@ -21,11 +21,10 @@ public class GenreController {
     @GetMapping()
     public ResponseEntity<List<Genre>> getGenres() {
         List<Genre> genres = genreRepository.findAll();
-        if(genres.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(genres);
     }
+
+
 
 
 
