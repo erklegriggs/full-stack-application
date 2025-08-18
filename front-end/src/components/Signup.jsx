@@ -1,9 +1,11 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {signup} from "../utilities/apiUtilities";
 
 import { jwtDecode } from 'jwt-decode'
+import {useNavigate} from "react-router-dom";
 
 export default function Signup() {
+    const navigate = useNavigate();
     const [Username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -21,7 +23,7 @@ export default function Signup() {
             errors.push("Please confirm password");
         }
         if (passwordConfirm !== password) {
-            errors.push("Please confirm password");
+            errors.push("Passwords do not match");
         }
         setSignupErrors(errors)
         return errors.length === 0;
@@ -41,11 +43,12 @@ export default function Signup() {
             localStorage.setItem('key', response.token);
             localStorage.setItem('role', claims.role[0].authority);
             localStorage.setItem('username', claims.sub);
+            navigate('/mixtapes');
         }, []);
     }
 
     return (
-        <div>
+        <div className="signupContainer">
             <h3>Sign Up</h3>
             <form onSubmit={handleSubmit}>
                 {signupErrors.length !== "" ?  signupErrors.map((error,index) =>

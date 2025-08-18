@@ -1,11 +1,14 @@
 import {useState} from "react";
 import {login} from "../utilities/apiUtilities";
 import {jwtDecode} from "jwt-decode";
+import "../css/App.css";
+import {useNavigate} from "react-router-dom";
 
 export default function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -19,11 +22,12 @@ export default function Login() {
             localStorage.setItem('key', response.token);
             localStorage.setItem('role', claims.role[0].authority);
             localStorage.setItem('username', claims.sub);
+            navigate('/mixtapes');
         }, []);
     }
 
     return (
-        <div>
+        <div className="loginContainer">
             <h3>Log In</h3>
             <form onSubmit={handleSubmit}>
                 <label> username:

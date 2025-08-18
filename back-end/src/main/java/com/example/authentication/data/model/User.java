@@ -18,17 +18,28 @@ public class User implements UserDetails {
     boolean enabled;
     @Enumerated(EnumType.STRING)
     Role role;
+    @Column(name = "profile_pic_url")
+    String profilePicURL;
 
     public User() {
     }
 
-    public User(UUID id, String username, String password, boolean enabled, Role role) {
+    public User(UUID id, String username, String password, boolean enabled, Role role, String profilePicURL) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.role = role;
+        this.profilePicURL = profilePicURL;
+    }
 
+
+    public String getProfilePicURL() {
+        return profilePicURL;
+    }
+
+    public void setProfilePicURL(String profilePicURL) {
+        this.profilePicURL = profilePicURL;
     }
 
     public UUID getId() {
@@ -102,17 +113,18 @@ public class User implements UserDetails {
                 .add("password='" + password + "'")
                 .add("enabled=" + enabled)
                 .add("role=" + role)
+                .add("profilePicURL='" + profilePicURL + "'")
                 .toString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof User user)) return false;
-        return isEnabled() == user.isEnabled() && Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && getRole() == user.getRole();
+        return isEnabled() == user.isEnabled() && Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && getRole() == user.getRole() && Objects.equals(getProfilePicURL(), user.getProfilePicURL());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), isEnabled(), getRole());
+        return Objects.hash(getId(), getUsername(), getPassword(), isEnabled(), getRole(), getProfilePicURL());
     }
 }
