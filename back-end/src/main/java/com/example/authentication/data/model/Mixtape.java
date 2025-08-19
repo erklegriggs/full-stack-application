@@ -1,5 +1,6 @@
 package com.example.authentication.data.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -37,11 +38,14 @@ public class Mixtape {
     @Column(name = "mixtape_pic_url")
     private String mixtapePicURL;
 
+    @Transient
+    private String username;
+
 
     public Mixtape() {
     }
 
-    public Mixtape(int mixtapeId, String userId, int genreId, String name, String description, Date date, String mixtapePicURL) {
+    public Mixtape(int mixtapeId, String userId, int genreId, String name, String description, Date date, String mixtapePicURL, String username) {
         this.mixtapeId = mixtapeId;
         this.userId = userId;
         this.genreId = genreId;
@@ -49,6 +53,7 @@ public class Mixtape {
         this.description = description;
         this.date = date;
         this.mixtapePicURL = mixtapePicURL;
+        this.username = username;
     }
 
     public int getMixtapeId() {
@@ -105,5 +110,13 @@ public class Mixtape {
 
     public void setMixtapePicURL(String mixtapePicURL) {
         this.mixtapePicURL = mixtapePicURL;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
