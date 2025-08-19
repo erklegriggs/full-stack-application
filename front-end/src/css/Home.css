@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f6f6;
+    color: #333;
+}
+
+.topBanner {
+    background: #8b5cf6;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+.footer {
+    background-color: #333;
+    color: #ccc;
+    text-align: center;
+    padding: 25px 20px;
+    margin-top: 50px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.footer p {
+    margin-bottom: 10px;
+}
+
+.footer .copyright {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #555;
+}
+
+.homeContainer {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 110px 20px 20px;
+}
+
+.homeContent {
+    text-align: center;
+    max-width: 380px;
+    width: 100%;
+}
+
+.homeContent h1 {
+    font-size: 45px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.homeContent p {
+    color: #777;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.homeContent img {
+    width: 120px;
+    height: 80px;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+}
+
+.navigation {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.loginButton, .signupButton, .securedButton {
+    display: inline-block;
+    padding: 12px 35px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background: #8b5cf6;
+    color: white;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.loginButton:hover, .signupButton:hover, .securedButton:hover {
+    background: #7c3aed;
+    transform: translateY(-1px);
+}
+
+button {
+    background: #666;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+button:hover {
+    background: #555;
+}
+
+@media (max-width: 480px) {
+    .homeContent h1 {
+        font-size: 35px;
+    }
+
+    .homeContent img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .loginButton, .signupButton, .securedButton {
+        padding: 10px 30px;
+        font-size: 15px;
+    }
+}
