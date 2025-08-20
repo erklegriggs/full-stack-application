@@ -12,14 +12,6 @@ public class Song {
     private int songId;
 
 
-    @Column(name = "user_id")
-    private int userId;
-
-
-    @Column(name = "mixtape_id")
-    private int mixtapeId;
-
-
     @Column(name = "name")
     private String name;
 
@@ -32,12 +24,19 @@ public class Song {
     private String songPicURL;
 
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "mixtape_id")
+    private Mixtape mixtape;
+
+
     public Song() {
     }
 
     public Song(int userId, int mixtapeId, String name, Integer duration, String songPicURL) {
-        this.userId = userId;
-        this.mixtapeId = mixtapeId;
         this.name = name;
         this.duration = duration;
         this.songPicURL = songPicURL;
@@ -49,22 +48,6 @@ public class Song {
 
     public void setSongId(int songId) {
         this.songId = songId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getMixtapeId() {
-        return mixtapeId;
-    }
-
-    public void setMixtapeId(int mixtapeId) {
-        this.mixtapeId = mixtapeId;
     }
 
     public String getName() {
@@ -89,5 +72,21 @@ public class Song {
 
     public void setSongPicURL(String songPicURL) {
         this.songPicURL = songPicURL;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Mixtape getMixtape() {
+        return mixtape;
+    }
+
+    public void setMixtape(Mixtape mixtape) {
+        this.mixtape = mixtape;
     }
 }
