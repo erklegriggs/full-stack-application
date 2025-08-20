@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f6f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.mixtapesPage {
+    min-height: 100vh;
+    background-color: #f6f6f6;
+    padding: 30px 25px 25px;
+    position: relative;
+}
+
+.mixtapesHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1280px;
+    margin: 0 auto 40px;
+    padding-top: 10px;
+}
+
+.mixtapesHeader h1 {
+    font-size: 40px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-right: 1px;
+    margin-top: -39px;
+}
+
+.profilePic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #8b5cf6;
+    object-fit: cover;
+}
+
+.logoutButton {
+    background: #8b5cf6;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.logoutButton:hover {
+    background: #7c3aed;
+    transform: translateY(-1px);
+}
+
+.mixtapesContainer {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.mixtapeCard {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.mixtapeCard:hover {
+    transform: translateY(-2px);
+}
+
+.mixtapeCard h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.mixtapeCard p {
+    color: #777;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.mixtapeCard small {
+    color: #999;
+    font-size: 12px;
+}
+
+@media (max-width: 760px) {
+    .mixtapesHeader {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .mixtapesHeader h1 {
+        font-size: 32px;
+    }
+
+    .profileSection {
+        order: -1;
+    }
+
+    .mixtapesContainer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .mixtapeCard {
+        padding: 20px;
+    }
+}
