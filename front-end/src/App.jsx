@@ -7,6 +7,8 @@ import SecuredComponent from "./components/SecuredComponent.jsx";
 import Login from './components/Login';
 import Home from './components/Home.jsx';
 import Mixtapes from "./components/Mixtapes.jsx";
+import Songs from "./components/Songs.jsx";
+import MyMusic from "./components/MyMusic.jsx";
 
 function App() {
     return (
@@ -16,6 +18,8 @@ function App() {
                     <Route path="/signup" element={<Signup/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/mixtapes" element={<Mixtapes/>}/>
+                    <Route path="/mixtapes/:mixtapeId/songs" element={<Songs/>}/>
+                    <Route path="/mymusic" element={<MyMusic/>}/>
                     <Route path="/secured" element={
                         <SecureRoute component={
                             <SecuredComponent/>

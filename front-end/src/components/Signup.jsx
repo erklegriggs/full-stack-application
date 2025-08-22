@@ -3,7 +3,6 @@ import {signup} from "../utilities/apiUtilities";
 
 import { jwtDecode } from 'jwt-decode'
 import {useNavigate} from "react-router-dom";
-import FileUpload from "./FileUploader.jsx";
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -19,10 +18,11 @@ export default function Signup() {
         setProfilePicFile(file);
         if(file) {
             const reader = new FileReader();
-            reader.onload = (e) => setProfilePicFile(e.target.result);
+            reader.onload = (e) => setProfilePicPreview(e.target.result);
             reader.readAsDataURL(file);
         } else {
             setProfilePicPreview(null);
+            setProfilePicFile(null);
         }
     }
 
@@ -55,14 +55,14 @@ export default function Signup() {
         signup(payload).then(async (response) => {
             console.log(response)
             const claims = jwtDecode(response.token);
-            localStorage.setItem('key', response.token);
+            localStorage.setItem('token', response.token);
             localStorage.setItem('role', claims.role[0].authority);
             localStorage.setItem('username', claims.sub);
             if(profilePicFile) {
                 const formData = new FormData();
                 formData.append('profilePic', profilePicFile);
                 try {
-                    await fetch(`http://localhost:8080/api/users/${claims.userId}/profile-pic`, {
+                    await fetch(`http://localhost:8080/api/users/${response.userId}/profile-pic`, {
                         method: "POST",
                         headers: {'Authorization': `Bearer ${response.token}`},
                         body: formData,
@@ -72,7 +72,7 @@ export default function Signup() {
                 }
             }
 
-            navigate('/mixtapes');
+            navigate('/login');
         }, []);
     }
 
@@ -84,25 +84,25 @@ export default function Signup() {
                     <p key={index}>{error}</p>
                 ) : <p></p>}
                 <label> Username:</label>
-                    <input
-                        type="text"
-                        value={Username}
-                        onChange={(e) => setUsername(e.target.value)}/>
+                <input
+                    type="text"
+                    value={Username}
+                    onChange={(e) => setUsername(e.target.value)}/>
 
                 <br/>
                 <label>Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}/>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}/>
 
                 <br/>
                 <label>Confirm Password:</label>
-                    <input
-                        type="password"
-                        value={passwordConfirm}
-                        onChange={(e) => setPasswordConfirm(e.target.value)}
-                    />
+                <input
+                    type="password"
+                    value={passwordConfirm}
+                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                />
 
                 <br/>
 
@@ -112,7 +112,7 @@ export default function Signup() {
                         <img src={profilePicPreview} alt="Avatar Preview" />
                     ):(
                         <div className="avatarPreviewPlaceholder">
-                        Choose Image
+                            Choose Image
                         </div>
                     )}
                 </div>

@@ -56,7 +56,7 @@ body {
   background: white;
   padding: 35px;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,13 +82,14 @@ body {
   margin-top: 5px;
   margin-bottom: 18px;
   background-color: #fafafa;
+  box-sizing: border-box;
 }
 
 .loginContainer input:focus {
   outline: none;
   border-color: #8b5cf6;
   background-color: white;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.15);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
 .loginContainer button {
@@ -100,7 +101,7 @@ body {
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 3px 8px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 3px 8px rgba(139, 92, 246, 0.3);
   margin-top: 8px;
   width: 100%;
 }
@@ -108,7 +109,7 @@ body {
 .loginContainer button:hover {
   background: #7c3aed;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
 }
 
 .loginContainer h3:last-of-type,
@@ -137,7 +138,7 @@ body {
   background: white;
   padding: 35px;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,13 +164,14 @@ body {
   margin-top: 5px;
   margin-bottom: 18px;
   background-color: #fafafa;
+  box-sizing: border-box;
 }
 
 .signupContainer input:focus {
   outline: none;
   border-color: #8b5cf6;
   background-color: white;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.15);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
 .signupContainer input[type="file"] {
@@ -193,7 +195,7 @@ body {
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 3px 8px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 3px 8px rgba(139, 92, 246, 0.3);
   margin-top: 8px;
   width: 100%;
 }
@@ -201,7 +203,7 @@ body {
 .signupContainer button:hover {
   background: #7c3aed;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
 }
 
 .signupContainer p {

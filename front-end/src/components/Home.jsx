@@ -1,15 +1,27 @@
 import React, {useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import '../css/Home.css';
+import {jwtDecode} from "jwt-decode";
 
 export default function Home() {
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(localStorage.getItem('key')) {
-            navigate('/mixtapes');
-        }
+        const token = localStorage.getItem('key')
+            if(token) {
+                try {
+                    const {exp} = jwtDecode(token);
+                    if(exp > Date.now() / 1000) {
+                        navigate('/mixtapes');
+                    }
+                    else {
+                        localStorage.clear();
+                    }
+                } catch {
+                    localStorage.clear();
+                }
+            }
     }, [navigate]);
 
 
@@ -32,9 +44,9 @@ export default function Home() {
                         <br/>
                         <Link to="/secured" className="securedButton">secured</Link>
                         <br/>
-                        {localStorage.getItem('key') && (
-                        <button onClick={() => {localStorage.clear(); window.location.reload();}}>Logout</button>
-                        )}
+                        {/*{localStorage.getItem('key') && (*/}
+                        {/*<button onClick={() => {localStorage.clear(); window.location.reload();}}>Logout</button>*/}
+                        {/*)}*/}
                     </div>
                 </div>
             </div>

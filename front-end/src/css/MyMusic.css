@@ -6,14 +6,14 @@ body {
     padding: 0;
 }
 
-.mixtapesPage {
+.musicPage {
     min-height: 100vh;
     background-color: #f6f6f6;
     padding: 30px 25px 25px;
     position: relative;
 }
 
-.mixtapesHeader {
+.musicHeader {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -22,7 +22,7 @@ body {
     padding-top: 10px;
 }
 
-.mixtapesHeader h1 {
+.musicHeader h1 {
     font-size: 40px;
     font-weight: bold;
     color: #333;
@@ -62,7 +62,7 @@ body {
     transform: translateY(-1px);
 }
 
-.mixtapesContainer {
+.musicContainer {
     max-width: 1280px;
     margin: 0 auto;
     display: grid;
@@ -70,31 +70,31 @@ body {
     gap: 25px;
 }
 
-.mixtapeCard {
+.musicCard {
     background: white;
     padding: 25px;
     border-radius: 15px;
     cursor: pointer;
 }
 
-.mixtapeCard:hover {
+.musicCard:hover {
     transform: translateY(-2px);
 }
 
-.mixtapeCard h3 {
+.musicCard h3 {
     font-size: 20px;
     font-weight: bold;
     color: #333;
     margin: 0 0 8px 0;
 }
 
-.mixtapeCard p {
+.musicCard p {
     color: #777;
     margin: 5px 0;
     font-size: 14px;
 }
 
-.mixtapeCard small {
+.musicCard small {
     color: #999;
     font-size: 12px;
 }
@@ -122,13 +122,13 @@ body {
 }
 
 @media (max-width: 760px) {
-    .mixtapesHeader {
+    .musicHeader {
         flex-direction: column;
         gap: 20px;
         text-align: center;
     }
 
-    .mixtapesHeader h1 {
+    .musicHeader h1 {
         font-size: 32px;
     }
 
@@ -136,12 +136,12 @@ body {
         order: -1;
     }
 
-    .mixtapesContainer {
+    .musicContainer {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
-    .mixtapeCard {
+    .musicCard {
         padding: 20px;
     }
 }

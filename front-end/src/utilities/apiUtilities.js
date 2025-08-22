@@ -24,6 +24,7 @@ const getUsers = () => {
             headers: {"Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem('key')},
         }).then(response => response.json());
 }
+
 const getMe = () => {
 return fetch("http://localhost:8080/api/users/me",
     {
@@ -32,5 +33,11 @@ return fetch("http://localhost:8080/api/users/me",
     }).then(response => response.json());
 }
 
+const getUserProfile = () => {
+    return fetch("http://localhost:8080/api/users/me", {
+        method: "GET",
+        headers: {"Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem('key')},
+    }).then(response => response.json());
+}
 
-export {login, signup, getUsers, getMe};
+export {login, signup, getUsers, getMe, getUserProfile};

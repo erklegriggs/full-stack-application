@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import '../css/Songs.css';
 import {getUserProfile} from "../utilities/apiUtilities.js";
 
 export default function Songs() {
 
     const navigate = useNavigate();
+    const {mixtapeId} = useParams();
     const [songs, setSongs] = useState([]);
     const [userProfilePic, setUserProfilePic] = useState(null);
 
@@ -24,7 +25,7 @@ export default function Songs() {
     const fetchSongs = async () => {
         try {
             const token = localStorage.getItem('key');
-            const response = await fetch('http://localhost:8080/api/songs', {
+            const response = await fetch(`http://localhost:8080/api/songs/mixtape/${mixtapeId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -44,7 +45,7 @@ export default function Songs() {
 
     useEffect(() => {
         fetchSongs();
-    }, []);
+    }, [mixtapeId]);
 
     const logOut = () => {
         localStorage.clear();

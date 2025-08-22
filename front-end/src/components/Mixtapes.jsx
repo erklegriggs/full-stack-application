@@ -1,11 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/Mixtapes.css';
+import {getUserProfile} from "../utilities/apiUtilities.js";
 
 export default function Mixtapes() {
 
     const navigate = useNavigate();
-    const [mixtapes, setMixtapes] = useState([]);
+    const [ mixtapes, setMixtapes ] = useState([]);
+    const [ userProfilePic, setUserProfilePic ] = useState(null);
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const userData = await getUserProfile();
+                setUserProfilePic(userData.profilePicURL);
+            } catch (error) {
+                console.log("Error: " + error);
+            }
+        };
+        fetchUserProfile();
+    }, []);
+
 
     const fetchMixtapes = async () => {
         try {
@@ -31,20 +46,47 @@ export default function Mixtapes() {
         navigate("/");
     }
     return (
-        <div>
-            <h1>Mixtapes</h1>
-            <button onClick={logOut}>Logout</button>
-
-            <div className="mixtapesContainer">
-                {mixtapes.map(mixtape => (
-                    <div key={mixtape.mixtapeId} className="mixtapeCard">
-                        <h3>{mixtape.name}</h3>
-                        <p>by {mixtape.username}</p>
-                        <p>{mixtape.description}</p>
-                        <small>{mixtape.date}</small>
+        <>
+            <div className="mixtapesPage">
+                <div className="mixtapesHeader">
+                    <h1>Mixtapes</h1>
+                    <div className="profile">
+                        {userProfilePic && (
+                            <img
+                                src={`http://localhost:8080${userProfilePic}`}
+                                alt="My Profile"
+                                className="profilePic"
+                            />
+                        )}
+                        <button onClick={logOut} className="logoutButton">
+                            Logout
+                        </button>
                     </div>
-                ))}
+                </div>
+
+                <div className="mixtapesContainer">
+                    {mixtapes.map(mixtape => (
+                        <div key={mixtape.mixtapeId} className="mixtapeCard"
+                             onClick={() => navigate(`/mixtapes/${mixtape.mixtapeId}/songs`)}>
+                            <h3>{mixtape.name}</h3>
+                            <p>by {mixtape.user.username}</p>
+                            <p>{mixtape.description}</p>
+                            <small>{mixtape.date}</small>
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
+
+            <footer className="footer">
+                <p>Promoting your favorite music since 2025.</p>
+                <div className="copyright">
+                    <p>© MxTape Inc, 2025</p>
+                    <p>1011 Musically Drive,</p>
+                    <p>San Francisco, CA</p>
+                </div>
+            </footer>
+        </>
+
+
     )
 }
