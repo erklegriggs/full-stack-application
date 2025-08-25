@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Form, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {getUserProfile} from "../utilities/apiUtilities.js";
 
 export default function CreateMixtapes() {
@@ -10,8 +10,8 @@ export default function CreateMixtapes() {
     const[userId, setUserId] = useState(null);
     const [userProfilePic, setUserProfilePic] = useState(null);
     const [songs, setSongs] = useState([{name: '', file: null}])
-    const [isCreationFormOpen, setIsCreationFormOpen] = useState(false);
     const [creationErrors, setCreationErrors] = useState([]);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -19,6 +19,7 @@ export default function CreateMixtapes() {
                 const userData = await getUserProfile();
                 setUserProfilePic(userData.profilePicURL);
                 setUserId(userData.id);
+                setUsername(userData.username);
             } catch (error) {
                 console.log("Error: " + error);
             }
@@ -107,7 +108,7 @@ export default function CreateMixtapes() {
             const mixtapeData = {
                 name: mixtapeForm.name,
                 description: mixtapeForm.description,
-                genreId: mixtapeForm.genreId,
+                genreId: parseInt(mixtapeForm.genreId),
                 userId: userId
             };
             const mixtapeResponse = await fetch(`http://localhost:8080/api/mixtapes`, {
@@ -130,8 +131,8 @@ export default function CreateMixtapes() {
 
             for (let i = 0; i < songs.length; i++) {
                 const formData = new FormData();
-                formData.append('Name', songs[i].name);
-                formData.append('Audiofile', songs[i].file);
+                formData.append('name', songs[i].name);
+                formData.append('audioFile', songs[i].file);
                 await fetch(`http://localhost:8080/api/songs/mixtape/${mixtape.mixtapeId}`, {
                     method: "POST",
                     headers: {"Authorization": "Bearer " + localStorage.getItem('key')},
@@ -145,10 +146,6 @@ export default function CreateMixtapes() {
 
     }
 
-    const changeCreationFormDisplay = () => {
-        setIsCreationFormOpen(true);
-    }
-
     const logOut = () => {
         localStorage.clear();
         navigate("/");
@@ -159,11 +156,8 @@ export default function CreateMixtapes() {
         <>
             <div className="mixtapeCreationContainer">
                 <h3>Create Your Sound!</h3>
-                <div className="creationHeader">
+                <div className="mixtapesHeader">
                     <h1>Mixtapes</h1>
-                    <button onClick={changeCreationFormDisplay}>
-                        {isCreationFormOpen ? 'Creation Form' : '+'}
-                    </button>
                     <div className="profile">
                         {userProfilePic && (
                             <img
@@ -172,79 +166,69 @@ export default function CreateMixtapes() {
                                 className="profilePic"
                             />
                         )}
+                        <p>{username}</p>
                         <button onClick={logOut} className="logoutButton">
                             Logout
                         </button>
                     </div>
                 </div>
-                {isCreationFormOpen && (
-                    <form  onSubmit={handleMixtapeSubmit}>
-                        {creationErrors.map((error, index) =>
-                            <p key={index}>{error}</p>)}
+                <form  onSubmit={handleMixtapeSubmit}>
+                    {creationErrors.map((error, index) =>
+                        <p key={index}>{error}</p>)}
 
-                        <label>Mixtape Name:</label>
-                        <input name="name" value={mixtapeForm.name} onChange={handleFormChange}/>
-                        <label>Description:</label>
-                        <input name="description" value={mixtapeForm.description} onChange={handleFormChange}/>
-                        <label>Genre:</label>
-                        <select name="genreId" value={mixtapeForm.genreId} onChange={handleFormChange}>
-                            <option>Choose your genre:</option>
-                            <option>Pop</option>
-                            <option>HipHop</option>
-                            <option>Country</option>
-                            <option>R&B</option>
-                            <option>Rock</option>
-                        </select>
+                    <label>Mixtape Name:</label>
+                    <input name="name" value={mixtapeForm.name} onChange={handleFormChange}/>
+                    <label>Description:</label>
+                    <input name="description" value={mixtapeForm.description} onChange={handleFormChange}/>
+                    <label>Genre:</label>
+                    <select name="genreId" value={mixtapeForm.genreId} onChange={handleFormChange}>
+                        <option value="">Choose your genre:</option>
+                        <option value="1">Pop</option>
+                        <option value="2">HipHop</option>
+                        <option value="3">Country</option>
+                        <option value="4">R&B</option>
+                        <option value="5">Rock</option>
+                    </select>
 
-                        <label>Mixtape Cover</label>
-                        <div className={`coverPreview ${mixtapePicPreview ? 'hasImage' : ''}`}>
-                            {mixtapePicPreview ? (
-                                <img src={mixtapePicPreview} alt="Cover Preview" />
-                            ):(
-                                <div className="coverPreviewPlaceholder">
-                                    Choose an Image
-                                </div>
+                    <label>Mixtape Cover</label>
+                    <div className={`coverPreview ${mixtapePicPreview ? 'hasImage' : ''}`}>
+                        {mixtapePicPreview ? (
+                            <img src={mixtapePicPreview} alt="Cover Preview" />
+                        ):(
+                            <div className="coverPreviewPlaceholder">
+                                Choose an Image
+                            </div>
+                        )}
+                    </div>
+
+                    <input
+                        type="file"
+                        accept=".jpg, .png, .jpeg"
+                        onChange={handleMixtapePicSubmit}
+                    />
+
+                    <label>Songs</label>
+                    {songs.map((song, index) => (
+                        <div key={index}>
+                            <input
+                                type="text"
+                                placeholder={"Song " + (index+1) + " Name"}
+                                value={song.name}
+                                onChange={(e) => updateSongName(index, e.target.value)}/>
+                            <input
+                                type="file"
+                                accept="audio/*"
+                                onChange={(e) => updateSongFile(index, e.target.files[0])}/>
+                            {songs.length > 1 && (
+                                <button  type="button" onClick={() => deleteSongs(index)}>🗑️</button>
                             )}
                         </div>
+                    ))}
+                    <button type="button" onClick={addSongs}>Add song +</button>
 
-                        <input
-                            type="file"
-                            accept=".jpg, .png, .jpeg"
-                            onChange={handleMixtapePicSubmit}
-                        />
-
-                        <label>Songs</label>
-                        {songs.map((song, index) => (
-                            <div key={index}>
-                                <input
-                                    type="text"
-                                    placeholder={"Song " + (index+1) + " Name"}
-                                    value={song.name}
-                                    onChange={(e) => updateSongName(index, e.target.value)}/>
-                                <input
-                                    type="file"
-                                    accept="audio/*"
-                                    onChange={(e) => updateSongFile(index, e.target.files[0])}/>
-                                {songs.length > 1 && (
-                                    <button  type="button" onClick={() => deleteSongs(index)}>🗑️</button>
-                                )}
-                            </div>
-                        ))}
-                        <button type="button" onClick={addSongs}>Add song +</button>
-
-                        <button type="submit">Create</button>
-                    </form>
-                )}
-
-
-
-
-
-
+                    <button type="submit">Create</button>
+                </form>
             </div>
-
-
-
 
         </>
 

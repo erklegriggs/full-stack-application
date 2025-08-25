@@ -49,7 +49,6 @@
     font-weight: bold;
     font-size: 12px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
 }
 
 .logoutButton:hover {
@@ -63,4 +62,112 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
+}
+
+.createMixtapeCard {
+    background: #8b5cf6;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.createMixtapeCard:hover {
+    background: #7c3aed;
+    transform: translateY(-1px);
+}
+
+.createMixtapeCard h3 {
+    margin: 10px 0 0;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.mixtapeCard {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.mixtapeCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.mixtapeCard h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.mixtapeCard p {
+    color: #777;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.mixtapeCard small {
+    color: #999;
+    font-size: 12px;
+    display: block;
+    margin-top: 10px;
+}
+
+
+
+.footer {
+    background-color: #333;
+    color: #ccc;
+    text-align: center;
+    padding: 25px 20px;
+    margin-top: 50px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.footer p {
+    margin-bottom: 10px;
+}
+
+.footer .copyright {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #555;
+}
+
+@media (max-width: 760px) {
+    .mixtapesHeader {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .mixtapesHeader h1 {
+        font-size: 32px;
+    }
+
+    .profile {
+        order: -1;
+    }
+
+    .mixtapesContainer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .mixtapeCard, .createMixtapeCard {
+        padding: 20px;
+    }
 }
