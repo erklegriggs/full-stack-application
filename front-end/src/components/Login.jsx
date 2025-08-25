@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {login} from "../utilities/apiUtilities";
 import {jwtDecode} from "jwt-decode";
 import "../css/App.css";
@@ -8,12 +8,24 @@ export default function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isAdminRole, setIsAdminRole] = useState(false);
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('key');
+        if(token) {
+            const claims = jwtDecode(token);
+            // checking if admin is logged in already upon page loading
+            if(claims.role[0].authority === 'ROLE_ADMIN') {
+                setIsAdminRole(true);
+            }
+        }
+
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
-
         const payload = {
             username: username,
             password: password
@@ -21,34 +33,60 @@ export default function Login() {
         login(payload).then((response) => {
             const claims = jwtDecode(response.token);
             localStorage.setItem('key', response.token);
-            localStorage.setItem('role', claims.role[0].authority);
             localStorage.setItem('username', claims.sub);
-            navigate('/mixtapes');
-        }, []);
+            // setting admin boolean to true to redirect to admin view choices (user or admin) in return
+            if(claims.role[0].authority === 'ROLE_ADMIN') {
+                setIsAdminRole(true);
+            }
+            else {
+                localStorage.setItem('role', 'ROLE_USER');
+                navigate('/mixtapes');
+            }
+
+        });
     }
 
     return (
         <div className="loginContainer">
-            <h3>Log In</h3>
-            <form onSubmit={handleSubmit}>
-                <label> username:
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}/>
-                </label>
-                <br/>
-                <label>Password:
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}/>
-                </label>
-                <br/>
-                <button type="submit">Log In</button>
-            </form>
-            <h3>Login Response</h3>
-            <div>{localStorage.getItem('key') && JSON.stringify(localStorage.getItem('key'))}</div>
+            {isAdminRole && <h3>Welcome, Administrator!</h3>}
+            {!isAdminRole && <h3>Log In</h3>}
+
+
+            {!isAdminRole && (
+                <form onSubmit={handleSubmit}>
+                    <label> username:
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}/>
+                    </label>
+                    <br/>
+                    <label>password:
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}/>
+                    </label>
+                    <br/>
+                    <button type="submit">Log In</button>
+                </form>
+            )}
+            {isAdminRole && (
+                <div>
+                    <label>Select View Mode:</label>
+                    <button className="adminViewChoiceButton" onClick={() => {
+                        localStorage.setItem('role', 'ROLE_ADMIN');
+                        navigate('/mixtapes');
+                    }}>ADMIN VIEW</button>
+
+                    <button className="userViewChoiceButton" onClick={() => {
+                        localStorage.setItem('role', 'ROLE_USER');
+                        navigate('/mixtapes');
+                    }}>USER VIEW</button>
+                </div>
+
+
+            )}
         </div>
     )
 }

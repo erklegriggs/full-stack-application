@@ -112,9 +112,23 @@ body {
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
 }
 
-.loginContainer h3:last-of-type,
-.loginContainer div:last-child {
-  display: none;
+.adminViewChoiceButton, .userViewChoiceButton {
+  background: #8b5cf6;
+  color: white;
+  padding: 12px 35px;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(139, 92, 246, 0.3);
+  margin-top: 8px;
+  width: 100%;
+}
+
+.adminViewChoiceButton:hover {
+  background: #7c3aed;
+  transform: translateY(-1px);
 }
 
 .signupContainer {
