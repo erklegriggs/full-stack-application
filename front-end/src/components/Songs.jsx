@@ -24,10 +24,10 @@ export default function Songs() {
 
     const fetchSongs = async () => {
         try {
-            const token = localStorage.getItem('key');
+            const key = localStorage.getItem('key');
             const response = await fetch(`http://localhost:8080/api/songs/mixtape/${mixtapeId}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${key}`
                 }
             });
             const data = await response.json();

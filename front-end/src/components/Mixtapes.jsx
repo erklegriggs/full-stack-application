@@ -24,10 +24,10 @@ export default function Mixtapes() {
 
     const fetchMixtapes = async () => {
         try {
-            const token = localStorage.getItem('key');
+            const key = localStorage.getItem('key');
             const response = await fetch('http://localhost:8080/api/mixtapes', {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${key}`
                 }
             });
             const data = await response.json();

@@ -8,10 +8,10 @@ export default function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('key')
-            if(token) {
+        const key = localStorage.getItem('key')
+            if(key) {
                 try {
-                    const {exp} = jwtDecode(token);
+                    const {exp} = jwtDecode(key);
                     if(exp > Date.now() / 1000) {
                         navigate('/mixtapes');
                     }

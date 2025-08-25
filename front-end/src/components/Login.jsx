@@ -13,9 +13,9 @@ export default function Login() {
 
 
     useEffect(() => {
-        const token = localStorage.getItem('key');
-        if(token) {
-            const claims = jwtDecode(token);
+        const key = localStorage.getItem('key');
+        if(key) {
+            const claims = jwtDecode(key);
             // checking if admin is logged in already upon page loading
             if(claims.role[0].authority === 'ROLE_ADMIN') {
                 setIsAdminRole(true);

@@ -24,10 +24,10 @@ export default function MyMusic() {
 
     const fetchUsersMixtapes = async () => {
         try {
-            const token = localStorage.getItem('key');
+            const key = localStorage.getItem('key');
             const response = await fetch(`http://localhost:8080/api/mixtapes?userId=${userId}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${key}`
                 }
             });
             const data = await response.json();
@@ -43,6 +43,10 @@ export default function MyMusic() {
             fetchUsersMixtapes();
         }
     }, [userId]);
+
+    const handleCreateButton = () => {
+        navigate("/create-mixtapes");
+    }
 
     const logOut = () => {
         localStorage.clear();
@@ -69,6 +73,10 @@ export default function MyMusic() {
                 </div>
 
                 <div className="musicContainer">
+                    <div className="createMixtapesCard" onClick={handleCreateButton}>
+                        <div className="plusButton">+</div>
+                        <p>Create</p>
+                    </div>
                     {mixtapes.map(mixtape => (
                         <div key={mixtape.mixtapeId} className="musicCard"
                              onClick={() => navigate(`/mixtapes/${mixtape.mixtapeId}/songs`)}>

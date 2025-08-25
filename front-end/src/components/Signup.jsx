@@ -45,7 +45,7 @@ export default function Signup() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // until all fields in form pass validation, don't process submit
+        // don't submit until all fields pass validation
         if(!validateForm()) {
             return;
         }
@@ -54,10 +54,10 @@ export default function Signup() {
 
         signup(payload).then(async (response) => {
             console.log(response)
-            const claims = jwtDecode(response.token);
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('role', claims.role[0].authority);
-            localStorage.setItem('username', claims.sub);
+            const userData = jwtDecode(response.token);
+            localStorage.setItem('key', response.token);
+            localStorage.setItem('role', userData.role[0].authority);
+            localStorage.setItem('username', userData.sub);
             if(profilePicFile) {
                 const formData = new FormData();
                 formData.append('profilePic', profilePicFile);
@@ -77,56 +77,55 @@ export default function Signup() {
     }
 
     return (
-        <div className="signupContainer">
-            <h3>Sign Up</h3>
-            <form onSubmit={handleSubmit}>
-                {signupErrors.length !== "" ?  signupErrors.map((error,index) =>
-                    <p key={index}>{error}</p>
-                ) : <p></p>}
-                <label> Username:</label>
-                <input
-                    type="text"
-                    value={Username}
-                    onChange={(e) => setUsername(e.target.value)}/>
+        <>
+            <div className="signupContainer">
+                <h3>Sign Up</h3>
+                <form onSubmit={handleSubmit}>
+                    {signupErrors.map((error, index) =>
+                        <p key={index}>{error}</p>)}
+                    <label> Username:</label>
+                    <input
+                        type="text"
+                        value={Username}
+                        onChange={(e) => setUsername(e.target.value)}/>
 
-                <br/>
-                <label>Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}/>
+                    <br/>
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}/>
 
-                <br/>
-                <label>Confirm Password:</label>
-                <input
-                    type="password"
-                    value={passwordConfirm}
-                    onChange={(e) => setPasswordConfirm(e.target.value)}
-                />
+                    <br/>
+                    <label>Confirm Password:</label>
+                    <input
+                        type="password"
+                        value={passwordConfirm}
+                        onChange={(e) => setPasswordConfirm(e.target.value)}
+                    />
 
-                <br/>
+                    <br/>
 
-                <label>Avatar</label>
-                <div className={`avatarPreview ${profilePicPreview ? 'hasImage' : ''}`}>
-                    {profilePicPreview ? (
-                        <img src={profilePicPreview} alt="Avatar Preview" />
-                    ):(
-                        <div className="avatarPreviewPlaceholder">
-                            Choose Image
-                        </div>
-                    )}
-                </div>
+                    <label>Avatar</label>
+                    <div className={`avatarPreview ${profilePicPreview ? 'hasImage' : ''}`}>
+                        {profilePicPreview ? (
+                            <img src={profilePicPreview} alt="Avatar Preview" />
+                        ):(
+                            <div className="avatarPreviewPlaceholder">
+                                Choose an Image
+                            </div>
+                        )}
+                    </div>
 
-                <input
-                    type="file"
-                    accept=".jpg, .png, .jpeg"
-                    onChange={handleProfilePicSubmit}
-                />
+                    <input
+                        type="file"
+                        accept=".jpg, .png, .jpeg"
+                        onChange={handleProfilePicSubmit}
+                    />
 
-                <button type="submit">Sign Up</button>
-            </form>
-            <h3>Signup Response:</h3>
-            <div>{localStorage.getItem('key') && localStorage.getItem('key')}</div>
-        </div>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+        </>
     )
 }
