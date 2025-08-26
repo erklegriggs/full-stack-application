@@ -7,19 +7,19 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Like, Integer> {
 
-    @Query(value = "SELECT * FROM likes WHERE user_id = :userId ORDER BY created_at DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM likes WHERE user_id = :userId", nativeQuery = true)
     List<Like> findLikesByUserId(String userId);
-
-    @Query(value = "SELECT COUNT(*) > 0 FROM likes WHERE user_id = :userId AND mixtape_id = :mixtapeId", nativeQuery = true)
-    boolean likedByUserIdMixtapeId(String userId, int mixtapeId);
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM likes WHERE user_id = :userId AND mixtape_id = :mixtapeId", nativeQuery = true)
     void removeByUserIdMixtapeId(String userId, int mixtapeId);
+
+    Optional<Like> findByUserIdAndMixtapeId(String userId, int mixtapeId);
 
 
 

@@ -12,6 +12,7 @@ import java.util.*;
 public class User implements UserDetails {
     @Id
     UUID id;
+
     String username;
     String password;
     @Column(nullable = false, columnDefinition = "TINYINT")
@@ -20,6 +21,8 @@ public class User implements UserDetails {
     Role role;
     @Column(name = "profile_pic_url")
     String profilePicURL;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Mixtape> mixtapes = new ArrayList<>();
 
     public User() {
     }

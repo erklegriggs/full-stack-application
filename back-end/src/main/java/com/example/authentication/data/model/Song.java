@@ -24,6 +24,9 @@ public class Song {
     private String songPicURL;
 
 
+    @Column(name = "song_audio_url")
+    private String songAudioUrl;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -36,10 +39,11 @@ public class Song {
     public Song() {
     }
 
-    public Song(int userId, int mixtapeId, String name, Integer duration, String songPicURL) {
+    public Song(int userId, int mixtapeId, String name, Integer duration, String songPicURL, String songAudioUrl) {
         this.name = name;
         this.duration = duration;
         this.songPicURL = songPicURL;
+        this.songAudioUrl = songAudioUrl;
     }
 
     public int getSongId() {
@@ -88,5 +92,13 @@ public class Song {
 
     public void setMixtape(Mixtape mixtape) {
         this.mixtape = mixtape;
+    }
+
+    public String getSongAudioUrl() {
+        return songAudioUrl;
+    }
+
+    public void setSongAudioUrl(String songAudioUrl) {
+        this.songAudioUrl = songAudioUrl;
     }
 }

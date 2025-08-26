@@ -3,8 +3,6 @@ package com.example.authentication.data.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
-
 @Entity
 @Table(name = "likes")
 public class Like {

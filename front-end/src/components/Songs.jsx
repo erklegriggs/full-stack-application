@@ -9,12 +9,14 @@ export default function Songs() {
     const {mixtapeId} = useParams();
     const [songs, setSongs] = useState([]);
     const [userProfilePic, setUserProfilePic] = useState(null);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
                 const userData = await getUserProfile();
                 setUserProfilePic(userData.profilePicURL);
+                setUsername(userData.username);
             } catch (error) {
                 console.log("Error: " + error);
             }
@@ -65,6 +67,7 @@ export default function Songs() {
                                 className="profilePic"
                             />
                         )}
+                        <p>{username}</p>
                         <button onClick={logOut} className="logoutButton">
                             Logout
                         </button>

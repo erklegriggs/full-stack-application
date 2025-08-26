@@ -8,6 +8,7 @@ export default function MyMusic() {
     const navigate = useNavigate();
     const [userProfilePic, setUserProfilePic] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -15,6 +16,7 @@ export default function MyMusic() {
                 const userData = await getUserProfile();
                 setUserProfilePic(userData.profilePicURL);
                 setUserId(userData.id);
+                setUsername(userData.username);
             } catch (error) {
                 console.log("Error: " + error);
             }
@@ -56,6 +58,11 @@ export default function MyMusic() {
     return (
         <>
             <div className="musicPage">
+                <nav className="navigationHeader">
+                    <a href="/" className="link">Home</a>
+                    <a href="/about" className="link"></a>
+                    <a href="" className="link"></a>
+                </nav>
                 <div className="musicHeader">
                     <h1>Your art, all in one place.</h1>
                     <div className="profile">
@@ -66,17 +73,20 @@ export default function MyMusic() {
                                 className="profilePic"
                             />
                         )}
+                        <p>{username}</p>
                         <button onClick={logOut} className="logoutButton">
                             Logout
                         </button>
                     </div>
                 </div>
 
-                <div className="musicContainer">
-                    <div className="createMixtapesCard" onClick={handleCreateButton}>
-                        <div className="plusButton">+</div>
-                        <p>Create</p>
+                <div className="createMixtapesCard" onClick={handleCreateButton}>
+                    <div className="createMixtapeContainer">
+                        <div className="plusButton">CREATE</div>
                     </div>
+                </div>
+
+                <div className="musicContainer">
                     {mixtapes.map(mixtape => (
                         <div key={mixtape.mixtapeId} className="musicCard"
                              onClick={() => navigate(`/mixtapes/${mixtape.mixtapeId}/songs`)}>

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/likes")
@@ -25,10 +26,10 @@ public class LikeController {
     @PostMapping
     public ResponseEntity<Like> addLikes(@RequestBody Like like) {
         // ensuring no duplicate likes
-        if(likeRepository.likedByUserIdMixtapeId(like.getUserId(), like.getMixtapeId())) {
+        Optional<Like> currentlyLiked = likeRepository.findByUserIdAndMixtapeId(like.getUserId(), like.getMixtapeId());
+        if(currentlyLiked.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-
         like = likeRepository.saveAndFlush(like);
         return ResponseEntity.status(HttpStatus.CREATED).body(like);
     }

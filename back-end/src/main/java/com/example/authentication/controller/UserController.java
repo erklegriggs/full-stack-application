@@ -11,11 +11,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import com.example.authentication.dto.JwtAuthenticationResponse;
 import com.example.authentication.dto.SignInRequest;
 import com.example.authentication.services.AuthenticationService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin
@@ -33,7 +40,7 @@ public class UserController implements Serializable {
         return userRepository.findAll();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @GetMapping("/me")
     public User getThisUser(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -49,6 +56,25 @@ public class UserController implements Serializable {
     @PostMapping("/signup")
     public JwtAuthenticationResponse signin(@RequestBody SignInRequest request) {
         return authenticationService.signup(request);
+    }
+
+    @PostMapping("/{userId}/profile-pic")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    public ResponseEntity<String> uploadProfilePic(@PathVariable UUID userId, @RequestParam("profilePic") MultipartFile file) {
+        try {
+            String fileName = userId + ".jpg";
+            Path path = Paths.get("uploads/profile-pics/" + fileName);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
+            User user = userRepository.findById(userId).get();
+            user.setProfilePicURL("/uploads/profile-pics/" + fileName);
+            userRepository.save(user);
+
+            return ResponseEntity.ok("Successfully uploaded!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Upload failed!");
+
+        }
     }
 
 }

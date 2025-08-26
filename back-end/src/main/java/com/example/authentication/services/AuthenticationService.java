@@ -31,11 +31,11 @@ public class AuthenticationService {
 
 
     public JwtAuthenticationResponse signup(SignInRequest request) {
-        User user = new User(UUID.randomUUID(), request.getUsername(), passwordEncoder.encode(request.getPassword()), true,  Role.ROLE_USER);
+        User user = new User(UUID.randomUUID(), request.getUsername(), passwordEncoder.encode(request.getPassword()), true,  Role.ROLE_USER, null);
         user = userService.save(user);
         String jwt = jwtService.generateToken(user);
 
-        return  new JwtAuthenticationResponse(jwt);
+        return  new JwtAuthenticationResponse(jwt, user.getId());
     }
 
 
@@ -44,7 +44,7 @@ public class AuthenticationService {
         User user = userRepository.findByUsername(request.getUsername());
         String jwt = jwtService.generateToken(user);
 
-        return  new JwtAuthenticationResponse(jwt);
+        return  new JwtAuthenticationResponse(jwt, user.getId());
     }
 
 }

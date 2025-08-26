@@ -22,6 +22,7 @@ function App() {
                     <Route path="/mixtapes/:mixtapeId/songs" element={<Songs/>}/>
                     <Route path="/mymusic" element={<MyMusic/>}/>
                     <Route path="/create-mixtapes" element={<CreateMixtapes/>}/>
+                    {/*<Route path="/about" element={<About/>}/>*/}
                     <Route path="/secured" element={
                         <SecureRoute component={
                             <SecuredComponent/>

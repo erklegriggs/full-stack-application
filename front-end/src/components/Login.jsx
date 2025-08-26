@@ -34,6 +34,7 @@ export default function Login() {
             const claims = jwtDecode(response.token);
             localStorage.setItem('key', response.token);
             localStorage.setItem('username', claims.sub);
+            localStorage.setItem('userId', claims.sub);
             // setting admin boolean to true to redirect to admin view choices (user or admin) in return
             if(claims.role[0].authority === 'ROLE_ADMIN') {
                 setIsAdminRole(true);

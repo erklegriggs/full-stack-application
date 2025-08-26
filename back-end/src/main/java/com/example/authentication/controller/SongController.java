@@ -9,9 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -40,15 +45,27 @@ public class SongController {
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping("/mixtape/{mixtapeId}")
-    public ResponseEntity<Song> addSongToMixtape(@PathVariable Integer mixtapeId, @RequestBody Song song) {
-        Optional<Mixtape> mixtapeOptional = mixtapeRepository.findById(mixtapeId);
-        if(mixtapeOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<Song> addSongToMixtape(@PathVariable Integer mixtapeId, @RequestParam("name") String name, @RequestParam("audioFile") MultipartFile file) {
+        try {
+            Optional<Mixtape> mixtapeOptional = mixtapeRepository.findById(mixtapeId);
+            if(mixtapeOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            String fileName = UUID.randomUUID() + ".mp3";
+            Path path = Paths.get("uploads/songs/" + fileName);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
 
-        song.setMixtape(mixtapeOptional.get());
-        song = songRepository.saveAndFlush(song);
-        return ResponseEntity.status(HttpStatus.CREATED).body(song);
+            Song song = new Song();
+            song.setName(name);
+            song.setSongAudioUrl("/uploads/songs/" + fileName);
+            song.setMixtape(mixtapeOptional.get());
+            song.setUser(mixtapeOptional.get().getUser());
+
+            return ResponseEntity.ok(songRepository.save(song));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
@@ -60,4 +77,6 @@ public class SongController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+
 }

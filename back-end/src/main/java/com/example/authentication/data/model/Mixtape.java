@@ -1,9 +1,10 @@
 package com.example.authentication.data.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "mixtapes")
@@ -13,10 +14,6 @@ public class Mixtape {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mixtape_id")
     private int mixtapeId;
-
-
-    @Column(name = "user_id")
-    private String userId;
 
 
     @Column(name = "genre_id")
@@ -32,28 +29,31 @@ public class Mixtape {
 
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
 
     @Column(name = "mixtape_pic_url")
     private String mixtapePicURL;
 
-    @Transient
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("mixtapes")
+    private User user;
+
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private UUID userId;
 
 
     public Mixtape() {
     }
 
-    public Mixtape(int mixtapeId, String userId, int genreId, String name, String description, Date date, String mixtapePicURL, String username) {
+    public Mixtape(int mixtapeId, int genreId, String name, String description, LocalDate date, String mixtapePicURL) {
         this.mixtapeId = mixtapeId;
-        this.userId = userId;
         this.genreId = genreId;
         this.name = name;
         this.description = description;
         this.date = date;
         this.mixtapePicURL = mixtapePicURL;
-        this.username = username;
     }
 
     public int getMixtapeId() {
@@ -62,14 +62,6 @@ public class Mixtape {
 
     public void setMixtapeId(int mixtapeId) {
         this.mixtapeId = mixtapeId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public int getGenreId() {
@@ -96,11 +88,11 @@ public class Mixtape {
         this.description = description;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -112,11 +104,19 @@ public class Mixtape {
         this.mixtapePicURL = mixtapePicURL;
     }
 
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }
