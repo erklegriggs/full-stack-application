@@ -11,6 +11,7 @@ export default function Mixtapes() {
     const [username, setUsername] = useState('');
     const [userId, setUserId] = useState(null);
     const [likedMixtapes, setLikedMixtapes] = useState(new Set());
+    const [searchFunction, setSearchFunction] = useState('');
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -31,7 +32,6 @@ export default function Mixtapes() {
             try {
                 const key = localStorage.getItem('key');
                 if(!userId) {
-                    console.log("Error accessing userId: " + key)
                     return;
                 }
                 const response = await fetch(`http://localhost:8080/api/likes?userId=${userId}`, {
@@ -50,6 +50,12 @@ export default function Mixtapes() {
 
         fetchUserLikes();
     }, [userId]);
+
+    // associating genre names with their genre_id within mixtape table
+    const getGenreName = (genreId) => {
+        const genreNames = {1: 'Pop', 2: 'HipHop', 3: 'Country', 4: 'R&B', 5: 'Rock'};
+        return genreNames[genreId];
+    }
 
     const fetchMixtapes = async () => {
         try {
@@ -107,9 +113,26 @@ export default function Mixtapes() {
         }
     }
 
+    const handleMixtapeDelete = async (mixtapeId) => {
+        try {
+            const key = localStorage.getItem('key');
+            await fetch(`http://localhost:8080/api/mixtapes/${mixtapeId}`, {
+                method: 'DELETE',
+                headers: {
+                    "Authorization": `Bearer ${key}`,
+                }
+            });
+            fetchMixtapes();
+        } catch(error) {
+            console.log("Error during deletion: " + error);
+        }
+    }
+
     useEffect(() => {
         fetchMixtapes();
     }, []);
+
+    const filterMixtapes = mixtapes.filter(mixtape => mixtape.name.toLowerCase().includes(searchFunction.toLowerCase()));
 
     const logOut = () => {
         localStorage.clear();
@@ -118,8 +141,13 @@ export default function Mixtapes() {
     return (
         <>
             <div className="mixtapesPage">
+                <nav className="navigationHeader">
+                    <a href="/" className="link">Home</a>
+                    <a href="/about" className="link">About</a>
+                    <a href="/mymusic" className="link">My Music</a>
+                </nav>
                 <div className="mixtapesHeader">
-                    <h1>Mixtapes</h1>
+                    <h1>Community Mixtapes</h1>
                     <div className="profile">
                         {userProfilePic && (
                             <img
@@ -135,8 +163,11 @@ export default function Mixtapes() {
                     </div>
                 </div>
 
+                <div className="searchBar">
+                    <input type="text" placeholder="Search by mixtape name..." value={searchFunction} onChange={(e) => setSearchFunction(e.target.value)} />
+                </div>
                 <div className="mixtapesContainer">
-                    {mixtapes.map(mixtape => (
+                    {filterMixtapes.map(mixtape => (
                         <div key={mixtape.mixtapeId} className="mixtapeCard"
                              onClick={() => navigate(`/mixtapes/${mixtape.mixtapeId}/songs`)}>
                             <div className={`coverPreview ${mixtape.mixtapePicURL ? 'hasImage' : ''}`}>
@@ -150,6 +181,7 @@ export default function Mixtapes() {
                             </div>
                             <h3>{mixtape.name}</h3>
                             <p>by <strong>{mixtape.user.username}</strong></p>
+                            <p>{getGenreName(mixtape.genreId)}</p>
                             <p><i>{mixtape.description}</i></p>
                             <small>{mixtape.date}</small>
                             <span className="like" onClick={(e) => {
@@ -158,6 +190,12 @@ export default function Mixtapes() {
                             }}>
                                 {likedMixtapes.has(mixtape.mixtapeId) ? '❤︎':'♡'}
                             </span>
+                            {localStorage.getItem('role') === 'ROLE_ADMIN' && (
+                                <span className="delete" onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMixtapeDelete(mixtape.mixtapeId);
+                                }}>🗑️</span>
+                            )}
                         </div>
                     ))}
                 </div>
