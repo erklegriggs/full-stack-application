@@ -155,9 +155,13 @@ export default function CreateMixtapes() {
     return (
         <>
             <div className="mixtapeCreationContainer">
-                <h3>Create Your Sound!</h3>
+                <nav className="navigationHeader">
+                    <a href="/" className="link">Home</a>
+                    <a href="/about" className="link">About</a>
+                </nav>
+                <h3>Share Your Sound!</h3>
                 <div className="mixtapesHeader">
-                    <h1>Mixtapes</h1>
+                    <h1>Create Mixtape</h1>
                     <div className="profile">
                         {userProfilePic && (
                             <img

@@ -8,7 +8,7 @@
 .songsHeader {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     max-width: 1280px;
     margin: 0 auto 40px;
     padding-top: 10px;
@@ -19,8 +19,35 @@
     font-weight: bold;
     color: #333;
     margin: 0;
+}
+
+.mixtapeDetails {
     text-align: center;
-    width: 100%;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.mixtapeCover {
+    height: 100px;
+    width: 150px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    object-fit: cover;
+}
+
+.stopAudioButton, .startAudioButton {
+    background-color: #8b5cf6;
+    color: white;
+    font-size: 12px;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.stopAudioButton:hover, .startAudioButton:hover {
+    background: #7c3aed;
+    transform: translateY(-1px);
 }
 
 .profile {
@@ -38,6 +65,16 @@
     border-radius: 50%;
     border: 2px solid #8b5cf6;
     object-fit: cover;
+}
+
+.navigationHeader {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.navigationHeader a {
+    margin: 0 15px;
+    font-size: 14px;
 }
 
 .logoutButton {
@@ -138,5 +175,10 @@
 
     .songCard {
         padding: 18px;
+    }
+
+    .mixtapeCover {
+        width: 120px;
+        height: 80px;
     }
 }

@@ -6,10 +6,13 @@ import {getUserProfile} from "../utilities/apiUtilities.js";
 export default function Songs() {
 
     const navigate = useNavigate();
+    const [mixtape, setMixtape] = useState(null);
     const {mixtapeId} = useParams();
     const [songs, setSongs] = useState([]);
     const [userProfilePic, setUserProfilePic] = useState(null);
     const [username, setUsername] = useState('');
+    const [playingSong, setPlayingSong] = useState(null);
+    const [playingSongId, setPlayingSongId] = useState(null);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -23,6 +26,21 @@ export default function Songs() {
         };
         fetchUserProfile();
     }, []);
+
+    const fetchMixtapes = async () => {
+        try {
+            const key = localStorage.getItem('key');
+            const response = await fetch(`http://localhost:8080/api/mixtapes/${mixtapeId}`, {
+                headers: {
+                    'Authorization': `Bearer ${key}`
+                }
+            });
+            const data = await response.json();
+            setMixtape(data);
+        } catch (error) {
+            console.log("There was a problem: ", error);
+        }
+    }
 
     const fetchSongs = async () => {
         try {
@@ -39,14 +57,55 @@ export default function Songs() {
         }
     }
 
-    const formatSongDurations = (seconds) => {
-        const min = Math.floor(seconds / 60);
-        const sec =  seconds % 60;
-        return  `${min}:${sec.toString().padStart(2, '0')}`;
+    // pause any songs currently playing
+    const playSongPreview = async (songId) => {
+        if(playingSong) {
+            playingSong.pause();
+        }
+        try {
+            const key = localStorage.getItem('key');
+            const response = await fetch(`http://localhost:8080/api/songs/${songId}/audio`, {
+                headers: {
+                    "Authorization": `Bearer ${key}`
+                }
+            });
+            const audioData = await response.blob();
+            const audioFile = URL.createObjectURL(audioData);
+            const audio = new Audio(audioFile);
+            setPlayingSong(audio);
+            setPlayingSongId(songId);
+            audio.play();
+
+            setTimeout(() => {
+                audio.pause();
+                setPlayingSong(null);
+                setPlayingSongId(null);
+                URL.revokeObjectURL(audioFile);
+            }, 15000);
+
+            audio.onended = () => {
+                setPlayingSong(null);
+                setPlayingSongId(null);
+                URL.revokeObjectURL(audioFile);
+            }
+        } catch(error) {
+            console.log("Error with audio file: " + error);
+        }
     }
+
+    const stopSongPreview = () => {
+        if(playingSong) {
+            playingSong.pause();
+            setPlayingSong(null);
+            setPlayingSongId(null);
+        }
+    }
+
+
 
     useEffect(() => {
         fetchSongs();
+        fetchMixtapes();
     }, [mixtapeId]);
 
     const logOut = () => {
@@ -57,8 +116,17 @@ export default function Songs() {
     return (
         <>
             <div className="songsPage">
+                <nav className="navigationHeader">
+                    <a href="/" className="link">Home</a>
+                    <a href="/about" className="link">About</a>
+                </nav>
                 <div className="songsHeader">
-                    <h1>Song</h1>
+                    <div className="mixtapeDetails">
+                        {mixtape && mixtape.mixtapePicURL && (
+                            <img src={`http://localhost:8080${mixtape.mixtapePicURL}`} alt="Mixtape Cover Image" className="mixtapeCover" />
+                        )}
+                        <h1>{mixtape ? mixtape.name : "Waiting.."}</h1>
+                    </div>
                     <div className="profile">
                         {userProfilePic && (
                             <img
@@ -78,7 +146,11 @@ export default function Songs() {
                     {songs.map(song => (
                         <div key={song.songId} className="songCard">
                             <h3>{song.name}</h3>
-                            <small>{formatSongDurations(song.duration)}</small>
+                            {playingSongId === song.songId ? (
+                                <button onClick={stopSongPreview} className="stopAudioButton">⏹</button>
+                            ) : (
+                                <button onClick={() => playSongPreview(song.songId)} className="startAudioButton">▷</button>
+                            )}
                         </div>
                     ))}
                 </div>

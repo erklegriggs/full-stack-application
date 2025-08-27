@@ -60,8 +60,7 @@ export default function MyMusic() {
             <div className="musicPage">
                 <nav className="navigationHeader">
                     <a href="/" className="link">Home</a>
-                    <a href="/about" className="link"></a>
-                    <a href="" className="link"></a>
+                    <a href="/about" className="link">About</a>
                 </nav>
                 <div className="musicHeader">
                     <h1>Your art, all in one place.</h1>
@@ -90,6 +89,15 @@ export default function MyMusic() {
                     {mixtapes.map(mixtape => (
                         <div key={mixtape.mixtapeId} className="musicCard"
                              onClick={() => navigate(`/mixtapes/${mixtape.mixtapeId}/songs`)}>
+                            <div className={`coverPreview ${mixtape.mixtapePicURL ? 'hasImage' : ''}`}>
+                                {mixtape.mixtapePicURL ? (
+                                    <img src={`http://localhost:8080${mixtape.mixtapePicURL}`} alt="Mixtape Cover Preview" />
+                                ):(
+                                    <div className="coverPreviewPlaceholder">
+                                        Choose an Image
+                                    </div>
+                                )}
+                            </div>
                             <h3>{mixtape.name}</h3>
                             <p>by {mixtape.user.username}</p>
                             <p>{mixtape.description}</p>

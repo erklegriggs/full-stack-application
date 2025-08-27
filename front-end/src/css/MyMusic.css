@@ -46,6 +46,16 @@ body {
     object-fit: cover;
 }
 
+.navigationHeader {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.navigationHeader a {
+    margin: 0 15px;
+    font-size: 14px;
+}
+
 .logoutButton {
     background: #8b5cf6;
     color: white;
