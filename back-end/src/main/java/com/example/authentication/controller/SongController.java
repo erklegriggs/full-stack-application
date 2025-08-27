@@ -6,6 +6,7 @@ import com.example.authentication.data.repository.MixtapeRepository;
 import com.example.authentication.data.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,25 @@ public class SongController {
         List<Song> songs = songRepository.findByMixtapeId(mixtapeId);
         return ResponseEntity.ok(songs);
     }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/{songId}/audio")
+    public ResponseEntity<byte[]> getAudio(@PathVariable Integer songId) {
+        try {
+            Optional<Song> songOptional = songRepository.findById(songId);
+            if(songOptional.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            Path filePath = Paths.get(songOptional.get().getSongAudioUrl().substring(1));
+            byte[] audioData = Files.readAllBytes(filePath);
+
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/mpeg")).body(audioData);
+
+        } catch(Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping("/mixtape/{mixtapeId}")
