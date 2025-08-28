@@ -9,6 +9,8 @@ export default function MyMusic() {
     const [userProfilePic, setUserProfilePic] = useState(null);
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState('');
+    const [editMixtapeId, setEditMixtapeId] = useState(null);
+    const [editMixtapeName,  setEditMixtapeName] = useState('');
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -39,6 +41,51 @@ export default function MyMusic() {
         }
     }
 
+    const handleMixtapeEdit = async (id) => {
+        const key = localStorage.getItem('key');
+        const currentMixtape = mixtapes.find(m => m.mixtapeId === id);
+        console.log(currentMixtape);
+        const response = await fetch(`http://localhost:8080/api/mixtapes`, {
+            method: "PUT",
+            headers: {
+                'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                mixtapeId: id,
+                name: editMixtapeName,
+                description: currentMixtape.description,
+                genreId: currentMixtape.genreId,
+                date:  currentMixtape.date,
+                mixtapePicURL: currentMixtape.mixtapePicURL,
+            })
+        });
+
+        if(response.ok) {
+            setEditMixtapeId(null);
+            fetchUsersMixtapes();
+        }
+    }
+
+    const startMixtapeEdit = (id, name) => {
+        setEditMixtapeId(id);
+        setEditMixtapeName(name);
+    }
+
+    const handleMixtapeDelete = async (mixtapeId) => {
+        try {
+            const key = localStorage.getItem('key');
+            await fetch(`http://localhost:8080/api/mixtapes/${mixtapeId}`, {
+                method: 'DELETE',
+                headers: {
+                    "Authorization": `Bearer ${key}`,
+                }
+            });
+            fetchUsersMixtapes();
+        } catch(error) {
+            console.log("Error during deletion: " + error);
+        }
+    }
+
     useEffect(() => {
         // ensuring userId is found before fetching
         if(userId) {
@@ -58,10 +105,7 @@ export default function MyMusic() {
     return (
         <>
             <div className="musicPage">
-                <nav className="navigationHeader">
-                    <a href="/" className="link">Home</a>
-                    <a href="/about" className="link">About</a>
-                </nav>
+                <img src="/images/MxTapeLogo.jpg" alt="MxTape Company Logo" className="logo"/>
                 <div className="musicHeader">
                     <h1>Your art, all in one place.</h1>
                     <div className="profile">
@@ -78,6 +122,10 @@ export default function MyMusic() {
                         </button>
                     </div>
                 </div>
+                <nav className="navigationHeader">
+                    <a href="/" className="link">Home</a>
+                    <a href="/about" className="link">About</a>
+                </nav>
 
                 <div className="createMixtapesCard" onClick={handleCreateButton}>
                     <div className="createMixtapeContainer">
@@ -98,12 +146,25 @@ export default function MyMusic() {
                                     </div>
                                 )}
                             </div>
-                            <h3>{mixtape.name}</h3>
+                            {editMixtapeId === mixtape.mixtapeId ? (
+                                <div>
+                                    <input value={editMixtapeName} onChange={(e) => setEditMixtapeName(e.target.value)}
+                                    onClick={(e) => e.stopPropagation()}/>
+                                    <button onClick={(e) => {e.stopPropagation(); handleMixtapeEdit(mixtape.mixtapeId)}}>Done</button>
+                                    <button onClick={(e) => {e.stopPropagation(); setEditMixtapeId(null)}}>Cancel</button>
+                                </div>
+                            ) : (
+                                <div>
+                                    <h3>{mixtape.name}</h3>
+                                    <button onClick={(e) => {e.stopPropagation(); startMixtapeEdit(mixtape.mixtapeId, mixtape.name)}}>Edit</button>
+                                </div>
+                            )}
                             <p>by {mixtape.user.username}</p>
                             <p>{mixtape.description}</p>
                             <small>{mixtape.date}</small>
                         </div>
                     ))}
+
                 </div>
             </div>
 
