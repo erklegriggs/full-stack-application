@@ -16,14 +16,6 @@ public class Song {
     private String name;
 
 
-    @Column(name = "duration")
-    private Integer duration;
-
-
-    @Column(name = "song_pic_url")
-    private String songPicURL;
-
-
     @Column(name = "song_audio_url")
     private String songAudioUrl;
 
@@ -39,10 +31,8 @@ public class Song {
     public Song() {
     }
 
-    public Song(int userId, int mixtapeId, String name, Integer duration, String songPicURL, String songAudioUrl) {
+    public Song(int userId, int mixtapeId, String name, String songAudioUrl) {
         this.name = name;
-        this.duration = duration;
-        this.songPicURL = songPicURL;
         this.songAudioUrl = songAudioUrl;
     }
 
@@ -60,22 +50,6 @@ public class Song {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    public String getSongPicURL() {
-        return songPicURL;
-    }
-
-    public void setSongPicURL(String songPicURL) {
-        this.songPicURL = songPicURL;
     }
 
     public User getUser() {

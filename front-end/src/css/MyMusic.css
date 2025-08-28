@@ -13,13 +13,22 @@ body {
     position: relative;
 }
 
+.logo {
+    width: 120px;
+    height: 80px;
+    border-radius: 40px;
+    object-fit: cover;
+    display: block;
+    margin: 10px 0 -55px 0;
+}
+
 .musicHeader {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     max-width: 1280px;
     margin: 0 auto 40px;
-    padding-top: 10px;
+    padding-top: 100px;
 }
 
 .musicHeader h1 {
@@ -158,6 +167,7 @@ body {
     .musicHeader {
         flex-direction: column;
         gap: 20px;
+        align-items: flex-end;
         text-align: center;
     }
 

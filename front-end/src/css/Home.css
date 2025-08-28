@@ -18,6 +18,25 @@ body {
     width: 100%;
 }
 
+.navigationHeader {
+    text-align: center;
+    padding: 18px 0;
+    border-top: 1px solid #8b5cf6;
+    border-bottom: 3px solid #8b5cf6;
+    margin: 40px 0 25px 0;
+}
+
+.link {
+    color: #8b5cf6;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 18px;
+}
+
+.link:hover {
+    color: #7c3aed;
+}
+
 .footer {
     background-color: #333;
     color: #ccc;
@@ -82,7 +101,7 @@ body {
     gap: 15px;
 }
 
-.loginButton, .signupButton, .securedButton {
+.loginButton, .signupButton {
     display: inline-block;
     padding: 12px 35px;
     border-radius: 20px;
@@ -95,7 +114,7 @@ body {
     color: white;
 }
 
-.loginButton:hover, .signupButton:hover, .securedButton:hover {
+.loginButton:hover, .signupButton:hover {
     background: #7c3aed;
     transform: translateY(-1px);
 }
@@ -125,7 +144,7 @@ button:hover {
         height: 75px;
     }
 
-    .loginButton, .signupButton, .securedButton {
+    .loginButton, .signupButton {
         padding: 10px 30px;
         font-size: 15px;
     }

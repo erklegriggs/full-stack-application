@@ -1,0 +1,54 @@
+.navigationHeader {
+    text-align: center;
+    padding: 18px 0;
+    border-top: 1px solid #8b5cf6;
+    border-bottom: 3px solid #8b5cf6;
+    margin: 40px 0 25px 0;
+}
+
+.link {
+    color: #8b5cf6;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 18px;
+}
+
+.link:hover {
+    color: #7c3aed;
+}
+
+.aboutHeader img {
+    width: 120px;
+    height: 80px;
+    border-radius: 10px;
+    margin: 20px 0;
+    object-fit: cover;
+}
+
+.aboutDetails {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.aboutSections {
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    border: 2px solid #8b5cf6;
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+}
+
+.aboutSections h3 {
+    color: #8b5cf6;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 18px;
+    margin-top: 25px;
+}
+
+.aboutSections p {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 20px;
+}

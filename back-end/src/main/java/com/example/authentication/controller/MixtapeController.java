@@ -80,7 +80,9 @@ public class MixtapeController {
         Optional<Mixtape> mixtapeOptional = mixtapeRepository.findById(mixtape.getMixtapeId());
 
         if(mixtapeOptional.isPresent()) {
-            return ResponseEntity.ok(mixtapeRepository.saveAndFlush(mixtape));
+            Mixtape currentMixtape = mixtapeOptional.get();
+            currentMixtape.setName(mixtape.getName());
+            return ResponseEntity.ok(mixtapeRepository.save(currentMixtape));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

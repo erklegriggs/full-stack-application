@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {getUserProfile} from "../utilities/apiUtilities.js";
+import "../css/CreateMixtapes.css";
 
 export default function CreateMixtapes() {
 
@@ -154,12 +155,7 @@ export default function CreateMixtapes() {
 
     return (
         <>
-            <div className="mixtapeCreationContainer">
-                <nav className="navigationHeader">
-                    <a href="/" className="link">Home</a>
-                    <a href="/about" className="link">About</a>
-                </nav>
-                <h3>Share Your Sound!</h3>
+            <div className="mixtapeCreationPage">
                 <div className="mixtapesHeader">
                     <h1>Create Mixtape</h1>
                     <div className="profile">
@@ -176,7 +172,12 @@ export default function CreateMixtapes() {
                         </button>
                     </div>
                 </div>
-                <form  onSubmit={handleMixtapeSubmit}>
+                <nav className="navigationHeader">
+                    <a href="/" className="link">Home</a>
+                    <a href="/about" className="link">About</a>
+                </nav>
+                <h3>Share Your Sound!</h3>
+                <form className="creationForm" onSubmit={handleMixtapeSubmit}>
                     {creationErrors.map((error, index) =>
                         <p key={index}>{error}</p>)}
 

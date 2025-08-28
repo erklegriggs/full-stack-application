@@ -116,10 +116,6 @@ export default function Songs() {
     return (
         <>
             <div className="songsPage">
-                <nav className="navigationHeader">
-                    <a href="/" className="link">Home</a>
-                    <a href="/about" className="link">About</a>
-                </nav>
                 <div className="songsHeader">
                     <div className="mixtapeDetails">
                         {mixtape && mixtape.mixtapePicURL && (
@@ -141,7 +137,10 @@ export default function Songs() {
                         </button>
                     </div>
                 </div>
-
+                <nav className="navigationHeader">
+                    <a href="/" className="link">Home</a>
+                    <a href="/about" className="link">About</a>
+                </nav>
                 <div className="songsContainer">
                     {songs.map(song => (
                         <div key={song.songId} className="songCard">

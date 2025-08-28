@@ -29,6 +29,9 @@ export default function Home() {
     return (
         <>
             <div className="topBanner">Where Music Meets Community.</div>
+            <nav className="navigationHeader">
+                <a href="/about" className="link">About</a>
+            </nav>
             <div className="homeContainer">
                 <div className="homeContent">
                     <h1>M<span className="letterX">x</span>Tape</h1>
@@ -42,11 +45,6 @@ export default function Home() {
                         <br/>
                         <Link to="/signup" className="signupButton">sign up</Link>
                         <br/>
-                        <Link to="/secured" className="securedButton">secured</Link>
-                        <br/>
-                        {/*{localStorage.getItem('key') && (*/}
-                        {/*<button onClick={() => {localStorage.clear(); window.location.reload();}}>Logout</button>*/}
-                        {/*)}*/}
                     </div>
                 </div>
             </div>

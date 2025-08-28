@@ -5,7 +5,12 @@ const login = (user) => {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(user)
-        }).then(response => response.json());
+        }).then(response => {
+        if (!response.ok) {
+            console.log("Failed to login!")
+        }
+        return response.json();
+    });
 }
 
 const signup= (user) => {

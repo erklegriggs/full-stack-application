@@ -141,11 +141,7 @@ export default function Mixtapes() {
     return (
         <>
             <div className="mixtapesPage">
-                <nav className="navigationHeader">
-                    <a href="/" className="link">Home</a>
-                    <a href="/about" className="link">About</a>
-                    <a href="/mymusic" className="link">My Music</a>
-                </nav>
+                <img src="/images/MxTapeLogo.jpg" alt="MxTape Company Logo" className="logo"/>
                 <div className="mixtapesHeader">
                     <h1>Community Mixtapes</h1>
                     <div className="profile">
@@ -162,6 +158,11 @@ export default function Mixtapes() {
                         </button>
                     </div>
                 </div>
+                <nav className="navigationHeader">
+                    <a href="/" className="link">Home</a>
+                    <a href="/about" className="link">About</a>
+                    <a href="/mymusic" className="link">My Music</a>
+                </nav>
 
                 <div className="searchBar">
                     <input type="text" placeholder="Search by mixtape name..." value={searchFunction} onChange={(e) => setSearchFunction(e.target.value)} />
