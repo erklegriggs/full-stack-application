@@ -98,6 +98,23 @@ body {
     transform: translateY(-1px);
 }
 
+.editButton, .cancelButton, .doneButton {
+    background: #8b5cf6;
+    color: white;
+    padding: 16px 16px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.editButton:hover, .cancelButton:hover, .doneButton:hover {
+    background: #7c3aed;
+    transform: translateY(-1px);
+}
+
 .createMixtapeContainer {
     width: auto;
     margin: 0 auto 40px;

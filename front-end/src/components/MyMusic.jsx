@@ -150,13 +150,17 @@ export default function MyMusic() {
                                 <div>
                                     <input value={editMixtapeName} onChange={(e) => setEditMixtapeName(e.target.value)}
                                     onClick={(e) => e.stopPropagation()}/>
-                                    <button onClick={(e) => {e.stopPropagation(); handleMixtapeEdit(mixtape.mixtapeId)}}>Done</button>
-                                    <button onClick={(e) => {e.stopPropagation(); setEditMixtapeId(null)}}>Cancel</button>
+                                    <button onClick={(e) => {e.stopPropagation(); handleMixtapeEdit(mixtape.mixtapeId)}} className="doneButton">Done</button>
+                                    <button onClick={(e) => {e.stopPropagation(); setEditMixtapeId(null)}} className="cancelButton">Cancel</button>
                                 </div>
                             ) : (
                                 <div>
                                     <h3>{mixtape.name}</h3>
-                                    <button onClick={(e) => {e.stopPropagation(); startMixtapeEdit(mixtape.mixtapeId, mixtape.name)}}>Edit</button>
+                                    <button onClick={(e) => {e.stopPropagation(); startMixtapeEdit(mixtape.mixtapeId, mixtape.name)}} className="editButton">Edit</button>
+                                    <span className="delete" onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleMixtapeDelete(mixtape.mixtapeId);
+                                    }}>🗑️</span>
                                 </div>
                             )}
                             <p>by {mixtape.user.username}</p>

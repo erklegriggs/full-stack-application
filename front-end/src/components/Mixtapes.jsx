@@ -159,7 +159,6 @@ export default function Mixtapes() {
                     </div>
                 </div>
                 <nav className="navigationHeader">
-                    <a href="/" className="link">Home</a>
                     <a href="/about" className="link">About</a>
                     <a href="/mymusic" className="link">My Music</a>
                 </nav>
